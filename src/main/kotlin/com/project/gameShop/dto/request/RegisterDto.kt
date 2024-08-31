@@ -1,24 +1,24 @@
 package com.project.gameShop.dto.request
 
-import com.project.gameShop.entity.User
+import com.project.gameShop.entity.Users
 import com.project.gameShop.enummeration.Roles
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 
 data class RegisterDto(
 
-    val username: String,
-    var password: String,
+    val login: String,
+    var passWord: String,
     val roles: Roles
 
 ){
 
-    fun user(): User {
+    fun user(): Users {
 
-        password = BCryptPasswordEncoder().encode(password)
+        passWord = BCryptPasswordEncoder().encode(passWord)
 
-        return User(
-            username = this.username,
-            password = this.password,
+        return Users(
+            login = this.login,
+            passWord = this.passWord,
             roles = this.roles
         )
 

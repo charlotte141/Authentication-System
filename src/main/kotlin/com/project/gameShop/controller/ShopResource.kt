@@ -23,13 +23,13 @@ class ShopResource(
     private val service: GameService
 ) {
 
-    @PostMapping
+    @PostMapping("/new-game")
     fun buyGame(@RequestBody @Valid game: GameDto): ResponseEntity<String>{
         val text = service.buy(game.game())
         return ResponseEntity.status(HttpStatus.OK).body(text)
     }
 
-    @GetMapping
+    @GetMapping("/catalogy")
     fun allGame(): ResponseEntity<List<GameView>>{
         val games = service.all()
         return ResponseEntity.status(HttpStatus.OK).body(
@@ -39,13 +39,13 @@ class ShopResource(
         )
     }
 
-    @GetMapping
+    @GetMapping("/findBy-codigo")
     fun consultByID(@RequestParam id: Long): ResponseEntity<GameView>{
         val game = service.findByID(id)
         return ResponseEntity.status(HttpStatus.OK).body(GameView(game))
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/sell-game{id}")
     fun sellGame(@PathVariable id: Long): ResponseEntity<String>{
         val game = service.findByID(id)
         val text = service.sell(game)

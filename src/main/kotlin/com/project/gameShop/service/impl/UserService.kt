@@ -1,6 +1,6 @@
 package com.project.gameShop.service.impl
 
-import com.project.gameShop.entity.User
+import com.project.gameShop.entity.Users
 import com.project.gameShop.repository.UserRepository
 import com.project.gameShop.service.IUserService
 import org.springframework.security.core.userdetails.UserDetails
@@ -12,12 +12,12 @@ class UserService(
     private val userRepository: UserRepository
 ): UserDetailsService, IUserService {
 
-    override fun newUser(user: User){
+    override fun newUser(user: Users){
         userRepository.save(user)
     }
 
-    override fun loadUserByUsername(username: String): UserDetails? {
-        return userRepository.findByUsername(username)
+    override fun loadUserByUsername(login: String): UserDetails? {
+        return userRepository.findByLogin(login)
     }
 
 }

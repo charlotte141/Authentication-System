@@ -1,7 +1,10 @@
 package com.project.gameShop.controller
 
 import com.project.gameShop.dto.request.AuthenticationDto
+import com.project.gameShop.dto.request.LoginDto
 import com.project.gameShop.dto.request.RegisterDto
+import com.project.gameShop.entity.Users
+import com.project.gameShop.service.impl.TokenService
 import com.project.gameShop.service.impl.UserService
 import jakarta.validation.Valid
 import org.springframework.http.HttpStatus
@@ -17,23 +20,25 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 @RequestMapping("/auth")
 class AuthenticationResource(
-    private val userService: UserService
+    private val userService: UserService,
+    private val tokenService: TokenService
 ){
 
     lateinit var authenticationManager: AuthenticationManager
 
     @PostMapping("/login")
-    fun handlerAuth(@RequestBody @Valid data: AuthenticationDto): ResponseEntity<Authentication>{
-        val dataUserPasseword = UsernamePasswordAuthenticationToken(data.username, data.password)
+    fun handlerAuth(@RequestBody @Valid data: AuthenticationDto): ResponseEntity<LoginDto>{
+        val dataUserPasseword = UsernamePasswordAuthenticationToken(data.login, data.passWord)
         val auth = authenticationManager.authenticate(dataUserPasseword)
+        val token = tokenService.generationToken(auth.principal as Users)
 
-        return ResponseEntity.status(HttpStatus.OK).build()
+        return ResponseEntity.status(HttpStatus.OK).body(LoginDto(token))
     }
 
     @PostMapping("/Register")
     fun register(@RequestBody @Valid data: RegisterDto): ResponseEntity<Authentication>{
 
-        val userdetails = userService.loadUserByUsername(data.username)
+        val userdetails = userService.loadUserByUsername(data.login)
         if (userdetails != null){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build()
         }

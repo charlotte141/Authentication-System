@@ -2,7 +2,7 @@
 <project version="4">
   <component name="DiffGenerationConfig" isInitGenerateDdl="true">
     <option name="initGenerateDdl" value="true" />
-    <option name="sourceModelValue" value="gameShop.main:entityManagerFactory" />
+    <option name="sourceModelValue" value="com.project.gameShop.main:com.project.gameShop.main" />
     <option name="targetDbValue" value="11782f7f-666d-4d43-8637-9ed551a42736" />
   </component>
 </project>

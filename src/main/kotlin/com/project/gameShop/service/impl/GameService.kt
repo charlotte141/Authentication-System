@@ -1,13 +1,13 @@
 package com.project.gameShop.service.impl
 
 import com.project.gameShop.entity.Game
-import com.project.gameShop.repository.GameRepositor
+import com.project.gameShop.repository.GameRepository
 import com.project.gameShop.service.IGameService
 import org.springframework.stereotype.Service
 
 @Service
 class GameService(
-    private val repositor: GameRepositor
+    private val repositor: GameRepository
 ): IGameService {
 
     override fun buy(game: Game): String{

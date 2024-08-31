@@ -11,12 +11,16 @@ import org.springframework.security.config.http.SessionCreationPolicy
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.security.web.SecurityFilterChain
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
 
 @Configuration
 @EnableWebSecurity
-class SecurityConfig {
+class SecurityConfig(
+    private val securityFilter: Securityfilter
+) {
 
     @Bean
+    @Throws(Exception::class)
     fun securityFilterChain(http: HttpSecurity): SecurityFilterChain {
         return http
             .csrf { it.disable() }
@@ -28,6 +32,7 @@ class SecurityConfig {
                 .requestMatchers(HttpMethod.POST, "/Api/ShopGame").hasRole("ADMIN")
                 .anyRequest().authenticated()
             }
+            .addFilterBefore(securityFilter ,UsernamePasswordAuthenticationFilter::class.java)
             .build()
     }
 
@@ -40,4 +45,5 @@ class SecurityConfig {
     fun passwordEncoder(): PasswordEncoder {
         return BCryptPasswordEncoder()
     }
+
 }
