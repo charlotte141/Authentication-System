@@ -6,7 +6,7 @@ import com.auth0.jwt.exceptions.JWTCreationException
 import com.project.gameShop.entity.Users
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
-import java.sql.Time
+import java.sql.Date
 
 @Service
 class TokenService{
@@ -20,7 +20,7 @@ class TokenService{
             val token = JWT.create()
                 .withIssuer("auth-api")
                 .withSubject(user.login)
-                .withExpiresAt(Time(1000))
+                .withExpiresAt(Date(System.currentTimeMillis()))
                 .sign(algorithm)
             return token
         }catch(excption: JWTCreationException){

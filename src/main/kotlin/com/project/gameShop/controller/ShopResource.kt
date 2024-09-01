@@ -45,7 +45,7 @@ class ShopResource(
         return ResponseEntity.status(HttpStatus.OK).body(GameView(game))
     }
 
-    @DeleteMapping("/sell-game{id}")
+    @DeleteMapping("/sell-game/{id}")
     fun sellGame(@PathVariable id: Long): ResponseEntity<String>{
         val game = service.findByID(id)
         val text = service.sell(game)

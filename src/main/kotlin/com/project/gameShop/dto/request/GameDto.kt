@@ -7,7 +7,7 @@ import jakarta.validation.constraints.NotNull
 data class GameDto(
 
     @field:NotBlank val nameGame: String,
-    @field:NotNull val price: Int,
+    @field:NotNull  val price: Int,
     @field:NotBlank val category: String,
     @field:NotBlank val gender: String
 

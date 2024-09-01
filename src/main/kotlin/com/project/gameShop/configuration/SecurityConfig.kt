@@ -1,5 +1,6 @@
 package com.project.gameShop.configuration
 
+import com.project.gameShop.enummeration.Roles
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.http.HttpMethod
@@ -27,9 +28,8 @@ class SecurityConfig(
             .sessionManagement { it.sessionCreationPolicy(SessionCreationPolicy.STATELESS) }
             .authorizeHttpRequests { it
                 .requestMatchers(HttpMethod.POST, "/auth/**").permitAll()
-                .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
-                .requestMatchers(HttpMethod.DELETE, "/Api/ShopGame").hasRole("ADMIN")
-                .requestMatchers(HttpMethod.POST, "/Api/ShopGame").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.DELETE, "/Api/ShopGame/sell-game/").hasRole(Roles.ADMIN.toString())
+                .requestMatchers(HttpMethod.POST, "/Api/ShopGame/new-game").hasRole(Roles.ADMIN.toString())
                 .anyRequest().authenticated()
             }
             .addFilterBefore(securityFilter ,UsernamePasswordAuthenticationFilter::class.java)

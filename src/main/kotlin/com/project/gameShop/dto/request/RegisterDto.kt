@@ -2,13 +2,15 @@ package com.project.gameShop.dto.request
 
 import com.project.gameShop.entity.Users
 import com.project.gameShop.enummeration.Roles
+import jakarta.validation.constraints.NotBlank
+import jakarta.validation.constraints.NotNull
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 
 data class RegisterDto(
 
-    val login: String,
-    var passWord: String,
-    val roles: Roles
+    @field:NotBlank val login: String,
+    @field:NotBlank var passWord: String,
+    @field:NotNull  val roles: Roles
 
 ){
 
