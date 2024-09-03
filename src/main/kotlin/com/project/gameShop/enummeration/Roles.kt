@@ -1,5 +1,5 @@
 package com.project.gameShop.enummeration
 
-enum class Roles {
-    ADMIN, USER
+enum class Roles{
+    ADMIN, USER;
 }

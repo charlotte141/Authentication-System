@@ -2,18 +2,11 @@ package com.project.gameShop.entity
 
 import com.project.gameShop.enummeration.Roles
 import jakarta.persistence.*
-import lombok.AllArgsConstructor
-import lombok.Data
-import lombok.NoArgsConstructor
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails
 
 @Entity
-@Table(name = "users")
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
 data class Users (
 
     @Id
@@ -22,12 +15,13 @@ data class Users (
 
     @Column(nullable = false) val login: String,
     @Column(nullable = false) val passWord: String,
-    @Column(nullable = false) val roles: Roles
+
+    @Enumerated(EnumType.STRING) val roles: Roles
 
 ): UserDetails {
     override fun getAuthorities(): MutableCollection<out GrantedAuthority> {
-        return if(this.roles == Roles.ADMIN) mutableListOf(SimpleGrantedAuthority("ROLE_ADMIN"), SimpleGrantedAuthority("ROLE_USER"))
-        else mutableListOf(SimpleGrantedAuthority("ROLE_USER"))
+        return if(this.roles == Roles.ADMIN) mutableListOf(SimpleGrantedAuthority("ADMIN"), SimpleGrantedAuthority("USER"))
+        else mutableListOf(SimpleGrantedAuthority("USER"))
     }
 
     override fun getPassword(): String {
@@ -37,5 +31,10 @@ data class Users (
     override fun getUsername(): String {
         return login
     }
+
+    override fun isAccountNonExpired(): Boolean = true
+    override fun isAccountNonLocked(): Boolean = true
+    override fun isCredentialsNonExpired(): Boolean = true
+    override fun isEnabled(): Boolean = true
 
 }

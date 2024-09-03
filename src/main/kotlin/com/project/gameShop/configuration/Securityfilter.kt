@@ -19,7 +19,7 @@ class Securityfilter(
 ) : OncePerRequestFilter() {
 
     @Throws(ServletException::class, IOException::class)
-    override fun doFilterInternal(request: HttpServletRequest, reponse: HttpServletResponse, filterChain: FilterChain){
+    override fun doFilterInternal(request: HttpServletRequest, response: HttpServletResponse, filterChain: FilterChain){
         val token = recoveryToken(request)
         if(token != null){
             val userName = tokenService.validationToken(token)
@@ -27,11 +27,11 @@ class Securityfilter(
             val authentication = UsernamePasswordAuthenticationToken(userName, null, user!!.authorities)
             SecurityContextHolder.getContext().authentication = authentication
         }
-        filterChain.doFilter(request, reponse)
+        filterChain.doFilter(request, response)
     }
 
     fun recoveryToken(request: HttpServletRequest): String?{
         val authHeader = request.getHeader("Authorization")
-        return authHeader?.replace("Bearer", "")
+        return authHeader?.replace("Bearer", "")?.trim()
     }
 }
