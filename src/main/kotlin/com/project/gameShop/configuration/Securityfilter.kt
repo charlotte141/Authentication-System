@@ -7,6 +7,7 @@ import jakarta.servlet.ServletException
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
+//import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Component
 import org.springframework.web.filter.OncePerRequestFilter
@@ -24,9 +25,20 @@ class Securityfilter(
         if(token != null){
             val userName = tokenService.validationToken(token)
             val user = userService.loadUserByUsername(userName)
-            val authentication = UsernamePasswordAuthenticationToken(userName, null, user!!.authorities)
-            SecurityContextHolder.getContext().authentication = authentication
+
+            if(user != null){
+                val authentication = UsernamePasswordAuthenticationToken(userName, null, user.authorities)
+                SecurityContextHolder.getContext().authentication = authentication
+            }
         }
+
+        /*val authentication = SecurityContextHolder.getContext().authentication
+        val isAdmin = authentication?.authorities?.contains(SimpleGrantedAuthority("ROLE_ADMIN")) ?: false
+        if (request.requestURI.contains("/admin") && !isAdmin) {
+            response.sendError(HttpServletResponse.SC_FORBIDDEN, "Forbidden")
+            return
+        }*/
+
         filterChain.doFilter(request, response)
     }
 

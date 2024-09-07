@@ -20,8 +20,8 @@ data class Users (
 
 ): UserDetails {
     override fun getAuthorities(): MutableCollection<out GrantedAuthority> {
-        return if(this.roles == Roles.ADMIN) mutableListOf(SimpleGrantedAuthority("ADMIN"), SimpleGrantedAuthority("USER"))
-        else mutableListOf(SimpleGrantedAuthority("USER"))
+        return if(this.roles == Roles.ADMIN) mutableListOf(SimpleGrantedAuthority("ROLE_ADMIN"), SimpleGrantedAuthority("ROLE_USER"))
+        else mutableListOf(SimpleGrantedAuthority("ROLE_USER"))
     }
 
     override fun getPassword(): String {
